@@ -1,0 +1,33 @@
+[inet_http_server]
+port = 0.0.0.0:${ports:supervisor}
+
+[supervisord]
+logfile = ${buildout:directory}/var/log/supervisord.log
+logfile_maxbytes = 50MB
+logfile_backups = 1
+loglevel = info
+pidfile = ${buildout:directory}/var/run/supervisord.pid
+nodaemon = false
+minfds = 800
+childlogdir = ${buildout:directory}/var/log/supervisor
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl = http://localhost:${ports:supervisor}
+
+{% if cookiecutter.crate.startswith('y') %}
+[program:crate]
+command = ${crate:location}/bin/crate -f -Des.cluster.name=${crate:cluster_name} -Des.config=${buildout:directory}/etc/crate.yml
+priority = 11
+redirect_stderr=true
+{% endif %}
+
+{% if cookiecutter.pyrest.startswith('y') %}
+[program:app]
+command = ${buildout:bin-directory}/app
+redirect_stderr=true
+priority = 1
+stopasgroup = true
+{% endif %}
