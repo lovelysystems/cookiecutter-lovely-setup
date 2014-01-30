@@ -39,7 +39,7 @@ stop the apps in the supervisor controller, then run::
 
   ./bin/app
 
-  {% endif %}
+  {%- endif %}
   {% if cookiecutter.crate.startswith('y') %}
 Setup crate database
 --------------------
@@ -51,7 +51,6 @@ To initialize a empty crate database run the command
 If the database has been setup already the script will raise an error but no
 data will get destroyed.
 
-
 Clean up crate database
 -----------------------
 
@@ -60,7 +59,7 @@ To reset the crate database to it's initial state run the command
   $ bin/crate_cleanup
 
 CAUTION: This command will delete all data!
-  {%endif %}
+  {%-endif %}
   {% if cookiecutter.sphinx.startswith('y') %}
 Generating Documentation
 ========================
@@ -69,4 +68,4 @@ To generate the HTML documentation start this script::
 
   ./bin/sphinx-html
   {%endif %}
-{% endif %}
+{%- endif %}

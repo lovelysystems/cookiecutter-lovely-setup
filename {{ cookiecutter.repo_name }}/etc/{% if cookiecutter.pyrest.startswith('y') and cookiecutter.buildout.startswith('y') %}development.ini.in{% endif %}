@@ -9,22 +9,20 @@ pyramid.default_locale_name = en
 pyramid.includes =
     pyramid_mailer
 
-auth.secret = 12345
+auth.secret = 00000
 
 locale.dirs = ${buildout:directory}/locales
-
 {% if cookiecutter.crate.startswith('y') %}
 crate.hosts = localhost:${ports:crate}
 crate.echo = True
 sql.pool_size = 50
 sql.max_overflow = 50
 es.settings = ${buildout:directory}/etc/essettings.py
-{% endif %}
+{%- endif %}
 
 mail.host = localhost
 mail.port = 25
 mail.default_sender = {{cookiecutter.email}}
-mail.min_avalanche_size = 2
 
 ###
 # wsgi server configuration

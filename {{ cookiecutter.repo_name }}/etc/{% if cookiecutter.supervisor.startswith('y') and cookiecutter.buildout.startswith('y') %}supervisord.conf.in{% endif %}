@@ -16,14 +16,12 @@ supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
 
 [supervisorctl]
 serverurl = http://localhost:${ports:supervisor}
-
 {% if cookiecutter.crate.startswith('y') %}
 [program:crate]
 command = ${crate:location}/bin/crate -f -Des.cluster.name=${crate:cluster_name} -Des.config=${buildout:directory}/etc/crate.yml
 priority = 11
 redirect_stderr=true
-{% endif %}
-
+{%- endif %}
 {% if cookiecutter.pyrest.startswith('y') %}
 [program:app]
 command = ${buildout:bin-directory}/app

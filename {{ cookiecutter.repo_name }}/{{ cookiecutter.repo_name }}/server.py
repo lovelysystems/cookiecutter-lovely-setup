@@ -1,11 +1,10 @@
 from pyramid.config import Configurator
 from pyramid.settings import aslist, asbool
-
 from sqlalchemy import create_engine
-
-{% if cookiecutter.crate.startswith('y') %}
+{%- if cookiecutter.crate.startswith('y') %}
 from .model import DBSession, Base
-{% endif %}
+{%- endif %}
+
 
 def app_factory(global_config, **settings):
     """Setup the main application for paste
@@ -13,11 +12,10 @@ def app_factory(global_config, **settings):
     This must be setup as the paste.app_factory in the egg entry-points.
     """
     config = Configurator(settings=settings, autocommit=True)
-{% if cookiecutter.crate.startswith('y') %}
+{%- if cookiecutter.crate.startswith('y') %}
     crate_init(config)
-{% endif %}
+{%- endif %}
     return config.make_wsgi_app()
-
 
 {% if cookiecutter.crate.startswith('y') %}
 def crate_init(config):
@@ -33,4 +31,4 @@ def crate_init(config):
     )
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
-{% endif %}
+{%- endif %}

@@ -1,26 +1,26 @@
 [buildout]
-{% if cookiecutter.py_package.startswith('y') %}
+{%- if cookiecutter.py_package.startswith('y') %}
 develop = .
-{% endif %}
+{%- endif %}
 extends = versions.cfg
-{% if cookiecutter.crate.startswith('y') %}
+{%- if cookiecutter.crate.startswith('y') %}
           crate.cfg
-{% endif %}
+{%- endif %}
 parts = conf
-{% if cookiecutter.supervisor.startswith('y') %}
+{%- if cookiecutter.supervisor.startswith('y') %}
         supervisor
-{% endif %}
-{% if cookiecutter.py_package.startswith('y') %}
-   {% if cookiecutter.pyrest.startswith('y') %}
+{%- endif %}
+{%- if cookiecutter.py_package.startswith('y') %}
+   {%- if cookiecutter.pyrest.startswith('y') %}
         app-scripts
-   {% endif %}
-{% endif %}
-{% if cookiecutter.crate.startswith('y') %}
+   {%- endif %}
+{%- endif %}
+{%- if cookiecutter.crate.startswith('y') %}
         crate crate-scripts crate-setup crate-cleanup
-{% endif %}
-{% if cookiecutter.sphinx.startswith('y') %}
+{%- endif %}
+{%- if cookiecutter.sphinx.startswith('y') %}
         sphinx-html
-{% endif %}
+{%- endif %}
 
 versions = versions
 extensions = lovely.buildouthttp
@@ -28,23 +28,22 @@ show-picked-versions = true
 
 [ports]
 app = 9210
-{% if cookiecutter.supervisor.startswith('y') %}
+{%- if cookiecutter.supervisor.startswith('y') %}
 supervisor = 8300
-{% endif %}
-{%if cookiecutter.crate.startswith('y') %}
+{%- endif %}
+{%-if cookiecutter.crate.startswith('y') %}
 crate = 9200
-{% endif %}
+{%- endif %}
 
 [settings]
 environment = development
 
 [conf]
 recipe = z3c.recipe.filetemplate
-files = {%if cookiecutter.supervisor.startswith('y') %}etc/supervisord.conf{% endif %}
-        {% if cookiecutter.pyrest.startswith('y') %}etc/development.ini{% endif %}
-        {% if cookiecutter.crate.startswith('y') %}etc/crate.yml{% endif %}
+files = {%- if cookiecutter.supervisor.startswith('y') %} etc/supervisord.conf{%- endif %}
+        {% if cookiecutter.pyrest.startswith('y') %}etc/development.ini{%- endif %}
+        {% if cookiecutter.crate.startswith('y') %}etc/crate.yml{%- endif %}
 extends = ports
-
 {% if cookiecutter.supervisor.startswith('y') %}
 [supervisor]
 recipe = zc.recipe.egg:script
@@ -54,24 +53,22 @@ scripts=supervisord
 eggs = supervisor
 initialization = import sys
                  sys.argv[1:1] = ['-c', '${buildout:directory}/etc/supervisord.conf']
-{% endif %}
-
+{%- endif %}
 {% if cookiecutter.sphinx.startswith('y') %}
 [sphinx-html]
 recipe = zc.recipe.egg:script
 eggs = sphinx
-    {% if cookiecutter.py_package.startswith('y') %}
+    {%- if cookiecutter.py_package.startswith('y') %}
        {{cookiecutter.repo_name}}
-    {% endif %}
+    {%- endif %}
 dependent-scripts = true
 scripts = sphinx-build=sphinx-html
 initialization =
   sys.argv.extend(['-E',
                    '${buildout:directory}/docs',
                    '${buildout:directory}/docs/out'])
-{% endif %}
-
-{% if cookiecutter.py_package.startswith('y') %}
+{%- endif %}
+{%- if cookiecutter.py_package.startswith('y') %}
    {% if cookiecutter.pyrest.startswith('y') %}
 [app-scripts]
 recipe = zc.recipe.egg:scripts
@@ -87,5 +84,5 @@ initialization =
     port = [a for a in sys.argv if 'http_port' in a]
     if not port:
         sys.argv.append('http_port=${ports:app}')
-   {% endif %}
-{% endif %}
+   {%- endif %}
+{%- endif %}
