@@ -52,6 +52,10 @@ requires = [
     'validictory',
     'python-dateutil',
     'lovely.pyrest',
+    {% if cookiecutter.crate.startswith('y') %}
+    'pyramid_tm',
+    'zope.sqlalchemy',
+    {% endif %}
 {% endif %}
 ]
 
