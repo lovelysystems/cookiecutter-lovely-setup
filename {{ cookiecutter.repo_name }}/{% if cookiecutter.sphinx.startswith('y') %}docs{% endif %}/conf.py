@@ -24,7 +24,7 @@ if m:
 else:
     raise RuntimeError('Unable to find version string')
 {% else %}
-VERSION = "{{cokiecutter.version}}"
+VERSION = "{{cookiecutter.version}}"
 {% endif %}
 
 {% if cookiecutter.pyrest.startswith('y') %}
