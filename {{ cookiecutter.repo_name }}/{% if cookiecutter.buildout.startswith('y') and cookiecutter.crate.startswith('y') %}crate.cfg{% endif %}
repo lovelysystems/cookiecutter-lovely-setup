@@ -18,50 +18,12 @@ interpreter = py
 recipe = lovely.recipe:mkfile
 path = ${buildout:bin-directory}/crate_setup
 mode = 0755
-crate = http://localhost:${ports:crate}
 content = #!/bin/sh
- if [ $1 ]
- then
-     HOST=$1
- else
-     HOST=localhost:${ports:crate}
- fi
- if [ $(uname) == "Darwin" ]
- then
-     FIND=gfind
- else
-     FIND=find
- fi
- INDEXES=$($FIND ${buildout:directory}/etc/crate_indexes/ -name '*.json' -type f -printf "%%f\n" | sed 's/\.[^\.]*$//')
- for index in $INDEXES
- do
-    echo "Create index '$index'"
-    curl -sSX PUT $HOST/$index -d @etc/crate_indexes/$index.json
-    echo
- done
+    cat etc/crate_setup.sql | ${buildout:bin-directory}/crash
 
 [crate-cleanup]
 recipe = lovely.recipe:mkfile
 path = ${buildout:bin-directory}/crate_cleanup
 mode = 0755
-crate = http://localhost:${ports:crate}
 content = #!/bin/sh
- if [ $1 ]
- then
-     HOST=$1
- else
-     HOST=localhost:${ports:crate}
- fi
- if [ $(uname) == "Darwin" ]
- then
-     FIND=gfind
- else
-     FIND=find
- fi
- INDEXES=$($FIND ${buildout:directory}/etc/crate_indexes/ -name '*.json' -type f -printf "%%f\n" | sed 's/\.[^\.]*$//')
- for index in $INDEXES
- do
-    echo "Deleting index '$index'"
-    curl -sSX DELETE $HOST/$index
-    echo
- done
+    cat etc/crate_cleanup.sql | ${buildout:bin-directory}/crash
