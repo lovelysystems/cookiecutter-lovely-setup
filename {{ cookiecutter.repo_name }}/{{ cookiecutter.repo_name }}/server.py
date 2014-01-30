@@ -12,11 +12,7 @@ def app_factory(global_config, **settings):
 
     This must be setup as the paste.app_factory in the egg entry-points.
     """
-    config = Configurator(settings=settings)
-
-    # this commit is required to make sure the defined base routes has been
-    # added
-    config.commit()
+    config = Configurator(settings=settings, autocommit=True)
 {% if cookiecutter.crate.startswith('y') %}
     crate_init(config)
 {% endif %}
