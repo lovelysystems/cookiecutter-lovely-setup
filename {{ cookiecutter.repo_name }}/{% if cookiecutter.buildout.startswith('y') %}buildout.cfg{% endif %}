@@ -32,7 +32,7 @@ app = 9210
 supervisor = 8300
 {%- endif %}
 {%-if cookiecutter.crate.startswith('y') %}
-crate = 9200
+crate = 4200
 {%- endif %}
 
 [settings]
