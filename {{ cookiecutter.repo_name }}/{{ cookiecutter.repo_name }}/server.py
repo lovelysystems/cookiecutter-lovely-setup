@@ -13,6 +13,8 @@ def app_factory(global_config, **settings):
     """
     config = Configurator(settings=settings, autocommit=True)
 {%- if cookiecutter.crate.startswith('y') %}
+    config.include('{{cookiecutter.repo_name}}.probestatus.view')
+    config.scan('{{cookiecutter.repo_name}}.probestatus')
     crate_init(config)
 {%- endif %}
     return config.make_wsgi_app()
