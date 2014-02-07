@@ -33,6 +33,9 @@ supervisor = 8300
 {%- endif %}
 {%-if cookiecutter.crate.startswith('y') %}
 crate = 4200
+crate_t = 4300
+crate2 = 4201
+crate_t2 = 4301
 {%- endif %}
 
 [settings]

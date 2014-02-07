@@ -18,7 +18,12 @@ supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
 serverurl = http://localhost:${ports:supervisor}
 {% if cookiecutter.crate.startswith('y') %}
 [program:crate]
-command = ${crate:location}/bin/crate -f -Des.cluster.name=${crate:cluster_name} -Des.config=${buildout:directory}/etc/crate.yml
+command = ${crate:location}/bin/crate -f -Des.config=${buildout:directory}/etc/crate.yml -Des.http.port=${ports:crate} -Des.discovery.zen.ping.unicast.hosts=localhost:${ports:crate_t2} -Des.transport.tcp.port=${ports:crate_t}
+priority = 11
+redirect_stderr=true
+
+[program:crate2]
+command = ${crate:location}/bin/crate -f -Des.config=${buildout:directory}/etc/crate.yml -Des.http.port=${ports:crate2} -Des.discovery.zen.ping.unicast.hosts=localhost:${ports:crate_t} -Des.transport.tcp.port=${ports:crate_t2}
 priority = 11
 redirect_stderr=true
 {%- endif %}

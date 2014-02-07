@@ -13,7 +13,7 @@ auth.secret = 00000
 
 locale.dirs = ${buildout:directory}/locales
 {% if cookiecutter.crate.startswith('y') %}
-crate.hosts = localhost:${ports:crate}
+crate.hosts = localhost:${ports:crate} localhost:${ports:crate2}
 crate.echo = True
 sql.pool_size = 50
 sql.max_overflow = 50
