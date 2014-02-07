@@ -6,6 +6,9 @@ extends = versions.cfg
 {%- if cookiecutter.crate.startswith('y') %}
           crate.cfg
 {%- endif %}
+{%- if cookiecutter.haproxy.startswith('y') %}
+          haproxy.cfg
+{%- endif %}
 parts = conf
 {%- if cookiecutter.supervisor.startswith('y') %}
         supervisor
@@ -18,6 +21,9 @@ parts = conf
 {%- if cookiecutter.crate.startswith('y') %}
         crate crate-scripts crate-setup crate-cleanup
 {%- endif %}
+{%- if cookiecutter.haproxy.startswith('y') %}
+        haproxy
+{%- endif %}
 {%- if cookiecutter.sphinx.startswith('y') %}
         sphinx-html
 {%- endif %}
@@ -27,7 +33,13 @@ extensions = lovely.buildouthttp
 show-picked-versions = true
 
 [ports]
+{%- if cookiecutter.pyrest.startswith('y') %}
 app = 9210
+    {%- if cookiecutter.haproxy.startswith('y') %}
+app2 = 9211
+haproxy-app = 9100
+    {%- endif %}
+{%- endif %}
 {%- if cookiecutter.supervisor.startswith('y') %}
 supervisor = 8300
 {%- endif %}
@@ -46,6 +58,7 @@ recipe = z3c.recipe.filetemplate
 files = {%- if cookiecutter.supervisor.startswith('y') %} etc/supervisord.conf{%- endif %}
         {% if cookiecutter.pyrest.startswith('y') %}etc/development.ini{%- endif %}
         {% if cookiecutter.crate.startswith('y') %}etc/crate.yml{%- endif %}
+        {% if cookiecutter.haproxy.startswith('y') %}etc/haproxy.conf{% endif %}
 extends = ports
 {% if cookiecutter.supervisor.startswith('y') %}
 [supervisor]

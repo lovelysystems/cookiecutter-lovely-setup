@@ -1,0 +1,22 @@
+# Shared Source Software
+# Copyright (c) 2011-2013 Lovely Systems GmbH
+
+listen ap 0.0.0.0:${haproxy-app}
+ stats uri /__haproxy_stats
+ log 127.0.0.1 local0 debug
+ option log-separate-errors
+ option abortonclose
+ mode http
+ default_backend ap_backend
+ timeout connect 4s
+ timeout client 10s
+
+backend ap_backend
+ mode http
+ timeout connect 4s
+ timeout server 10s
+ option httpchk GET /probe_status
+ fullconn 500
+
+ server ap_ap1_localhost localhost:${app} minconn 5 maxconn 50 check
+ server ap_ap2_localhost localhost:${app2} minconn 5 maxconn 50 check

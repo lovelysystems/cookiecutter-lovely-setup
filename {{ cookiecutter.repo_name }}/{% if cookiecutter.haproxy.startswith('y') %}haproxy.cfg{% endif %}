@@ -1,0 +1,7 @@
+[haproxy]
+recipe = hexagonit.recipe.cmmi
+url = http://haproxy.1wt.eu/download/1.4/src/haproxy-${versions:haproxy}.tar.gz
+configure-command = true
+make-options =
+     TARGET=generic
+     PREFIX=${buildout:parts-directory}/haproxy

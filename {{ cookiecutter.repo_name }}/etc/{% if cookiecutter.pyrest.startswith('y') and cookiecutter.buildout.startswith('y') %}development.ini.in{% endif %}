@@ -31,7 +31,7 @@ mail.default_sender = {{cookiecutter.email}}
 [server:main]
 use = egg:{{cookiecutter.repo_name}}#server
 host = 0.0.0.0
-port = ${ports:app}
+port = %(http_port)s
 
 ###
 # logging configuration

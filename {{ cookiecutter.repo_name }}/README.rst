@@ -31,8 +31,50 @@ Check the status of the programs::
 
   ./bin/supervisorctl status
 
-  {% if cookiecutter.pyrest -%}
-The frontend app is available at http://localhost:8200
+  {% if cookiecutter.pyrest.startswith('y') -%}
+    {% if cookiecutter.haproxy.startswith('y') %}
+The API is available at http://localhost:9100
+    {% else %}
+The frontend app is available at http://localhost:9210
+    {%- endif %}
+
+    {%- if cookiecutter.haproxy.startswith('y') or cookiecutter.crate.startswith('y') %}
+The local topology of the individual services looks as follows::
+
+        {% if cookiecutter.haproxy.startswith('y') %}
+                +----------------+
+                | haproxy (9100) |
+                +----------------+
+                   |          |
+             +-----+          +------+
+             |                       |
+             v                       v
+      +-------------+         +-------------+
+      | app  (9210) |         | app2 (9211) |
+      +-------------+         +-------------+
+            {%- if cookiecutter.crate.startswith('y') %}
+             |   |               |   |
+             |   +-------------------+
+             |                   |   |
+             +-------------------+   |
+            {%- endif %}
+        {%- else %}
+                +---------------+
+                |    app (9210) |
+                +---------------+
+            {%- if cookiecutter.crate.startswith('y') %}
+                   |          |
+             +-----+          +------+
+            {%- endif %}
+        {%- endif -%}
+        {%- if cookiecutter.crate.startswith('y') %}
+             |                       |
+             v                       v
+      +---------------+       +---------------+
+      | crate  (4200) |       | crate2 (4201) |
+      +---------------+       +---------------+
+    {% endif %}
+{% endif %}
 
 For debugging the Pyramid app can be started in the foreground. Take care to
 stop the apps in the supervisor controller, then run::
@@ -40,6 +82,15 @@ stop the apps in the supervisor controller, then run::
   ./bin/app
 
   {%- endif %}
+        {%- if cookiecutter.crate.startswith('y') %}
+
+The crate servers are running on port 4200 and 4201 and the admin interface
+is reachable at http://localhost:4200/admin.
+        {%- endif %}
+        {% if cookiecutter.haproxy.startswith('y') %}
+The status interface for the HAProxy is available at
+http://localhost:9100/__haproxy_stats
+        {% endif %}
   {% if cookiecutter.crate.startswith('y') %}
 Setup crate database
 --------------------

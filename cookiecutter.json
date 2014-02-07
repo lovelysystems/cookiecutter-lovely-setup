@@ -11,6 +11,7 @@
         "py_package": "yes",
         "buildout": "yes",
         "pyrest": "yes",
+        "haproxy": "yes",
         "crate": "yes",
         "supervisor": "yes",
         "sphinx": "yes"

@@ -29,8 +29,21 @@ redirect_stderr=true
 {%- endif %}
 {% if cookiecutter.pyrest.startswith('y') %}
 [program:app]
-command = ${buildout:bin-directory}/app
+command = ${buildout:bin-directory}/app http_port=${ports:app}
 redirect_stderr=true
 priority = 1
 stopasgroup = true
+
+    {%- if cookiecutter.haproxy.startswith('y') %}
+[program:app2]
+command = ${buildout:bin-directory}/app http_port=${ports:app2}
+redirect_stderr=true
+priority = 2
+stopasgroup = true
+
+[program:haproxy]
+command = ${buildout:parts-directory}/haproxy/sbin/haproxy -f ${buildout:directory}/etc/haproxy.conf
+redirect_stderr=true
+priority = 10
+    {% endif %}
 {% endif %}
