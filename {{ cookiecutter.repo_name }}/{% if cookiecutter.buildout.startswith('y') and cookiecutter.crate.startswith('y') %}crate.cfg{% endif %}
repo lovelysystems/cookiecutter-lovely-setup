@@ -4,7 +4,7 @@ url = http://download.cratedb.org/releases/crate-${versions:crate-java}.tar.gz
 strip-top-level-dir = true
 log_dir = ${buildout:directory}/var/log/crate
 data_dir = ${buildout:directory}/var/crate
-multicast = false
+multicast = true
 cluster_name = {{cookiecutter.repo_name}}-dev
 
 [crate-scripts]

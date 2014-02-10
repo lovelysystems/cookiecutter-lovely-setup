@@ -4,6 +4,17 @@
 
 {{cookiecutter.project_short_description}}
 
+Requirements
+============
+
+The following packages need to be installed::
+
+    brew install python27 libevent
+
+Or with macports::
+
+    sudo port install python27 libevent
+
 {% if cookiecutter.buildout.startswith('y') -%}
 
 Initial Setup for Development

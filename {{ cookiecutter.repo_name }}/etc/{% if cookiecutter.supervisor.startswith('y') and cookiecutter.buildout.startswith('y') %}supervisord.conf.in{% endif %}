@@ -18,29 +18,29 @@ supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
 serverurl = http://localhost:${ports:supervisor}
 {% if cookiecutter.crate.startswith('y') %}
 [program:crate]
-command = ${crate:location}/bin/crate -f -Des.config=${buildout:directory}/etc/crate.yml -Des.http.port=${ports:crate} -Des.discovery.zen.ping.unicast.hosts=localhost:${ports:crate_t2} -Des.transport.tcp.port=${ports:crate_t}
+command = ${crate:location}/bin/crate -f -Des.config=${buildout:directory}/etc/crate.yml
+numprocs=2
+numprocs_start=${ports:crate}
+process_name = %(program_name)s_%(process_num)04d
 priority = 11
 redirect_stderr=true
 
-[program:crate2]
-command = ${crate:location}/bin/crate -f -Des.config=${buildout:directory}/etc/crate.yml -Des.http.port=${ports:crate2} -Des.discovery.zen.ping.unicast.hosts=localhost:${ports:crate_t} -Des.transport.tcp.port=${ports:crate_t2}
-priority = 11
-redirect_stderr=true
 {%- endif %}
 {% if cookiecutter.pyrest.startswith('y') %}
 [program:app]
-command = ${buildout:bin-directory}/app http_port=${ports:app}
+command = ${buildout:bin-directory}/app http_port=%(process_num)04d
+numprocs_start=${ports:app}
+    {%- if cookiecutter.haproxy.startswith('y') %}
+numprocs=2
+    {%- else %}
+numprocs=1
+    {% endif %}
 redirect_stderr=true
+process_name = %(program_name)s_%(process_num)04d
 priority = 1
 stopasgroup = true
 
     {%- if cookiecutter.haproxy.startswith('y') %}
-[program:app2]
-command = ${buildout:bin-directory}/app http_port=${ports:app2}
-redirect_stderr=true
-priority = 2
-stopasgroup = true
-
 [program:haproxy]
 command = ${buildout:parts-directory}/haproxy/sbin/haproxy -f ${buildout:directory}/etc/haproxy.conf
 redirect_stderr=true
