@@ -1,7 +1,7 @@
 from pyramid.config import Configurator
+{%- if cookiecutter.crate.startswith('y') %}
 from pyramid.settings import aslist, asbool
 from sqlalchemy import create_engine
-{%- if cookiecutter.crate.startswith('y') %}
 from .model import DBSession, Base
 {%- endif %}
 
@@ -12,9 +12,9 @@ def app_factory(global_config, **settings):
     This must be setup as the paste.app_factory in the egg entry-points.
     """
     config = Configurator(settings=settings, autocommit=True)
-{%- if cookiecutter.crate.startswith('y') %}
     config.include('{{cookiecutter.repo_name}}.probestatus.view')
     config.scan('{{cookiecutter.repo_name}}.probestatus')
+{%- if cookiecutter.crate.startswith('y') %}
     crate_init(config)
 {%- endif %}
     return config.make_wsgi_app()
@@ -33,4 +33,4 @@ def crate_init(config):
     )
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
-{%- endif %}
+{%- endif -%}
