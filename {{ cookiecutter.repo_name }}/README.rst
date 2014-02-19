@@ -41,18 +41,27 @@ Start supervisor::
 Check the status of the programs::
 
   ./bin/supervisorctl status
-
   {% if cookiecutter.pyrest -%}
-    {% if cookiecutter.haproxy %}
+    {%- if cookiecutter.nginx %}
+The API is available at http://localhost:9400
+    {% elif cookiecutter.haproxy %}
 The API is available at http://localhost:9100
     {% else %}
 The frontend app is available at http://localhost:9210
     {%- endif %}
 
-    {%- if cookiecutter.haproxy or cookiecutter.crate %}
+    {%- if cookiecutter.haproxy or cookiecutter.crate or cookiecutter.nginx %}
 The local topology of the individual services looks as follows::
 
-        {% if cookiecutter.haproxy %}
+        {% if cookiecutter.nginx %}
+                +----------------+
+                |  nginx (9400)  |
+                +----------------+
+                         |
+                         |
+                         v
+        {%- endif %}
+        {%- if cookiecutter.haproxy %}
                 +----------------+
                 | haproxy (9100) |
                 +----------------+
