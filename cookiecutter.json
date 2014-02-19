@@ -13,6 +13,7 @@
         "pyrest": true,
         "haproxy": true,
         "crate": true,
+        "nginx": true,
         "supervisor": true,
         "sphinx": true
 }

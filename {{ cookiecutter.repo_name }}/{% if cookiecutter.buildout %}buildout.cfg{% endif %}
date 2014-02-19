@@ -6,12 +6,18 @@ extends = versions.cfg
 {%- if cookiecutter.crate %}
           crate.cfg
 {%- endif %}
+{%- if cookiecutter.nginx %}
+          nginx.cfg
+{%- endif %}
 {%- if cookiecutter.haproxy %}
           haproxy.cfg
 {%- endif %}
 parts = conf
 {%- if cookiecutter.supervisor %}
         supervisor
+{%- endif %}
+{%- if cookiecutter.nginx %}
+        nginx-cmd
 {%- endif %}
 {%- if cookiecutter.py_package %}
    {%- if cookiecutter.pyrest %}
@@ -42,6 +48,9 @@ haproxy-app = 9100
 {%- endif %}
 {%- if cookiecutter.supervisor %}
 supervisor = 8300
+{%- endif %}
+{%- if cookiecutter.nginx %}
+nginx = 9400
 {%- endif %}
 {%-if cookiecutter.crate %}
 crate = 4200
@@ -80,7 +89,11 @@ scripts = sphinx-build=sphinx-html
 initialization =
   sys.argv.extend(['-E',
                    '${buildout:directory}/docs',
+    {%- if cookiecutter.nginx %}
+                   '${buildout:directory}/nginx/html/docs/v1'])
+    {%- else %}
                    '${buildout:directory}/docs/out'])
+    {%- endif %}
 {%- endif %}
 {%- if cookiecutter.py_package %}
    {% if cookiecutter.pyrest %}

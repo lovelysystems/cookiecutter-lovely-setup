@@ -26,6 +26,13 @@ priority = 11
 redirect_stderr=true
 
 {%- endif %}
+{% if cookiecutter.crate %}
+[program:nginx]
+command = ${nginx-cmd:command}
+redirect_stderr=true
+priority = 0
+
+{%- endif %}
 {% if cookiecutter.pyrest %}
 [program:app]
 command = ${buildout:bin-directory}/app http_port=%(process_num)04d

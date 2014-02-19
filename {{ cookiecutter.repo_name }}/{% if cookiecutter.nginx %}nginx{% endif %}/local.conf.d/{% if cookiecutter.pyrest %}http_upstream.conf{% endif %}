@@ -1,0 +1,12 @@
+# -*- mode: perl -*-
+# Shared Source Software
+# Copyright (c) 2014 Lovely Systems GmbH
+
+upstream app {
+    {%- if cookiecutter.haproxy %}
+    server 127.0.0.1:9100;
+    {%- else %}
+    server 127.0.0.1:9210;
+    {%- endif %}
+}
+

@@ -1,0 +1,41 @@
+[openresty]
+# see https://github.com/agentzh/ngx_openresty
+recipe = hexagonit.recipe.cmmi
+url = http://agentzh.org/misc/nginx/ngx_openresty-${versions:openresty}.tar.gz
+configure-options = --with-debug
+  --with-cc-opt="-D NGX_HAVE_CASELESS_FILESYSTEM=0"
+  --with-http_stub_status_module
+  --with-http_realip_module
+  --without-mail_pop3_module
+  --without-mail_imap_module
+  --without-mail_smtp_module
+  --without-http_geo_module
+  --without-http_memcached_module
+  --without-http_empty_gif_module
+  --without-http_fastcgi_module
+  --without-http_scgi_module
+  --without-http_uwsgi_module
+  --without-http_xss_module
+  --without-http_form_input_module
+  --without-http_encrypted_session_module
+  --without-http_array_var_module
+  --without-http_redis2_module
+  --without-http_auth_request_module
+  --without-http_rds_json_module
+  --without-http_upstream_keepalive_module
+  --with-luajit
+  --with-ld-opt="-L/usr/local/lib"
+
+[nginx]
+location=${openresty:location}/nginx
+log_dir=${buildout:directory}/var/log
+prefix_dir=${buildout:directory}/nginx
+user=nobody
+
+[nginx-cmd]
+recipe = lovely.recipe:mkfile
+path = ${buildout:bin-directory}/nginx
+mode = 0755
+command = ${nginx:location}/sbin/nginx -c ${nginx:prefix_dir}/nginx.conf -p ${nginx:prefix_dir}/
+content = #!/bin/sh
+ ${nginx-cmd:command} $@
