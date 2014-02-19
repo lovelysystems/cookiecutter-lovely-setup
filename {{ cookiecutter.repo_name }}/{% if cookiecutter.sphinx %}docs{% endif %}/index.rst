@@ -7,7 +7,7 @@
 Contents:
 ---------
 
-{% if cookiecutter.pyrest.startswith('y') %}
+{% if cookiecutter.pyrest %}
 .. toctree::
    :maxdepth: 2
    :titlesonly:

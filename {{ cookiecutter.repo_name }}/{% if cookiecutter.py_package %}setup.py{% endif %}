@@ -38,10 +38,10 @@ def nailed_requires(requirements, pat=re.compile(r'^(.+)(\[.+\])?$')):
     return res
 
 requires = [
-{%- if cookiecutter.crate.startswith('y') %}
+{%- if cookiecutter.crate %}
     'crate [sqlalchemy]',
 {%- endif %}
-{%- if cookiecutter.pyrest.startswith('y') %}
+{%- if cookiecutter.pyrest %}
     'gevent',
     'pyramid',
     'pyramid_jinja2',
@@ -49,7 +49,7 @@ requires = [
     'validictory',
     'python-dateutil',
     'lovely.pyrest',
-    {%- if cookiecutter.crate.startswith('y') %}
+    {%- if cookiecutter.crate %}
     'pyramid_tm',
     'zope.sqlalchemy',
     {%- endif %}

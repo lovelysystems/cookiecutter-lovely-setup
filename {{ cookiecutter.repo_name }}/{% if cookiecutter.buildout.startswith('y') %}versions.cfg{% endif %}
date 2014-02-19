@@ -1,7 +1,0 @@
-[versions]
-{%- if cookiecutter.crate.startswith('y') %}
-crate-java = 0.22.2
-{%- endif %}
-{%- if cookiecutter.haproxy.startswith('y') %}
-haproxy = 1.4.18
-{%- endif %}

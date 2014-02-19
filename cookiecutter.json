@@ -8,11 +8,11 @@
         "release_date": "2014-01-24",
         "year": "2014",
         "version": "0.0.0",
-        "py_package": "yes",
-        "buildout": "yes",
-        "pyrest": "yes",
-        "haproxy": "yes",
-        "crate": "yes",
-        "supervisor": "yes",
-        "sphinx": "yes"
+        "py_package": true,
+        "buildout": true,
+        "pyrest": true,
+        "haproxy": true,
+        "crate": true,
+        "supervisor": true,
+        "sphinx": true
 }

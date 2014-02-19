@@ -1,5 +1,5 @@
 from pyramid.config import Configurator
-{%- if cookiecutter.crate.startswith('y') %}
+{%- if cookiecutter.crate %}
 from pyramid.settings import aslist, asbool
 from sqlalchemy import create_engine
 from .model import DBSession, Base
@@ -14,12 +14,12 @@ def app_factory(global_config, **settings):
     config = Configurator(settings=settings, autocommit=True)
     config.include('{{cookiecutter.repo_name}}.probestatus.view')
     config.scan('{{cookiecutter.repo_name}}.probestatus')
-{%- if cookiecutter.crate.startswith('y') %}
+{%- if cookiecutter.crate %}
     crate_init(config)
 {%- endif %}
     return config.make_wsgi_app()
 
-{% if cookiecutter.crate.startswith('y') %}
+{% if cookiecutter.crate %}
 def crate_init(config):
     settings = config.get_settings()
     engine = create_engine(

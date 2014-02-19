@@ -12,7 +12,7 @@ pyramid.includes =
 auth.secret = 00000
 
 locale.dirs = ${buildout:directory}/locales
-{% if cookiecutter.crate.startswith('y') %}
+{% if cookiecutter.crate %}
 crate.hosts = localhost:${ports:crate} localhost:${ports:crate2}
 crate.echo = True
 sql.pool_size = 50

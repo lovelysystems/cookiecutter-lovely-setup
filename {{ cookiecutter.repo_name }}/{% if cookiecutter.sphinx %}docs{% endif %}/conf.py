@@ -6,13 +6,13 @@ project_root = os.path.dirname(here)
 
 extensions = []
 
-{% if cookiecutter.pyrest.startswith('y') %}
+{% if cookiecutter.pyrest %}
 # load lovely.pyrest sphinx extension to autogenerate
 # service documentation
 extensions.append('lovely.pyrest.sphinx')
 {% endif %}
 
-{% if cookiecutter.py_package.startswith('y') %}
+{% if cookiecutter.py_package %}
 # inject the VERSION constant used below
 # This can be used because the build script updates the version number before
 # building the RPM.
@@ -27,7 +27,7 @@ else:
 VERSION = "{{cookiecutter.version}}"
 {% endif %}
 
-{% if cookiecutter.pyrest.startswith('y') %}
+{% if cookiecutter.pyrest %}
 pyramid_conf = os.path.join(project_root, 'etc', 'development.ini')
 {% endif %}
 

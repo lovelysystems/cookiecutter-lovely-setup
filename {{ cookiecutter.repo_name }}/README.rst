@@ -15,7 +15,7 @@ Or with macports::
 
     sudo port install python27 libevent
 
-{% if cookiecutter.buildout.startswith('y') -%}
+{% if cookiecutter.buildout -%}
 
 Initial Setup for Development
 =============================
@@ -28,7 +28,7 @@ Run buildout::
 
     bin/buildout -N
 {% endif %}
-{% if cookiecutter.supervisor.startswith('y') -%}
+{% if cookiecutter.supervisor -%}
 Start Dev Setup
 ===============
 
@@ -42,17 +42,17 @@ Check the status of the programs::
 
   ./bin/supervisorctl status
 
-  {% if cookiecutter.pyrest.startswith('y') -%}
-    {% if cookiecutter.haproxy.startswith('y') %}
+  {% if cookiecutter.pyrest -%}
+    {% if cookiecutter.haproxy %}
 The API is available at http://localhost:9100
     {% else %}
 The frontend app is available at http://localhost:9210
     {%- endif %}
 
-    {%- if cookiecutter.haproxy.startswith('y') or cookiecutter.crate.startswith('y') %}
+    {%- if cookiecutter.haproxy or cookiecutter.crate %}
 The local topology of the individual services looks as follows::
 
-        {% if cookiecutter.haproxy.startswith('y') %}
+        {% if cookiecutter.haproxy %}
                 +----------------+
                 | haproxy (9100) |
                 +----------------+
@@ -63,7 +63,7 @@ The local topology of the individual services looks as follows::
       +-------------+         +-------------+
       | app  (9210) |         | app2 (9211) |
       +-------------+         +-------------+
-            {%- if cookiecutter.crate.startswith('y') %}
+            {%- if cookiecutter.crate %}
              |   |               |   |
              |   +-------------------+
              |                   |   |
@@ -73,12 +73,12 @@ The local topology of the individual services looks as follows::
                 +---------------+
                 |    app (9210) |
                 +---------------+
-            {%- if cookiecutter.crate.startswith('y') %}
+            {%- if cookiecutter.crate %}
                    |          |
              +-----+          +------+
             {%- endif %}
         {%- endif -%}
-        {%- if cookiecutter.crate.startswith('y') %}
+        {%- if cookiecutter.crate %}
              |                       |
              v                       v
       +---------------+       +---------------+
@@ -93,16 +93,16 @@ stop the apps in the supervisor controller, then run::
   ./bin/app
 
   {%- endif %}
-        {%- if cookiecutter.crate.startswith('y') %}
+        {%- if cookiecutter.crate %}
 
 The crate servers are running on port 4200 and 4201 and the admin interface
 is reachable at http://localhost:4200/admin.
         {%- endif %}
-        {% if cookiecutter.haproxy.startswith('y') %}
+        {% if cookiecutter.haproxy %}
 The status interface for the HAProxy is available at
 http://localhost:9100/__haproxy_stats
         {% endif %}
-  {% if cookiecutter.crate.startswith('y') %}
+  {% if cookiecutter.crate %}
 Setup crate database
 --------------------
 
@@ -122,7 +122,7 @@ To reset the crate database to it's initial state run the command
 
 CAUTION: This command will delete all data!
   {%-endif %}
-  {% if cookiecutter.sphinx.startswith('y') %}
+  {% if cookiecutter.sphinx %}
 Generating Documentation
 ========================
 

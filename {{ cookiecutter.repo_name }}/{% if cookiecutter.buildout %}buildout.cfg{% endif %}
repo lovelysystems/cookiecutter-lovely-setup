@@ -1,30 +1,30 @@
 [buildout]
-{%- if cookiecutter.py_package.startswith('y') %}
+{%- if cookiecutter.py_package %}
 develop = .
 {%- endif %}
 extends = versions.cfg
-{%- if cookiecutter.crate.startswith('y') %}
+{%- if cookiecutter.crate %}
           crate.cfg
 {%- endif %}
-{%- if cookiecutter.haproxy.startswith('y') %}
+{%- if cookiecutter.haproxy %}
           haproxy.cfg
 {%- endif %}
 parts = conf
-{%- if cookiecutter.supervisor.startswith('y') %}
+{%- if cookiecutter.supervisor %}
         supervisor
 {%- endif %}
-{%- if cookiecutter.py_package.startswith('y') %}
-   {%- if cookiecutter.pyrest.startswith('y') %}
+{%- if cookiecutter.py_package %}
+   {%- if cookiecutter.pyrest %}
         app-scripts
    {%- endif %}
 {%- endif %}
-{%- if cookiecutter.crate.startswith('y') %}
+{%- if cookiecutter.crate %}
         crate crate-scripts crate-setup crate-cleanup
 {%- endif %}
-{%- if cookiecutter.haproxy.startswith('y') %}
+{%- if cookiecutter.haproxy %}
         haproxy
 {%- endif %}
-{%- if cookiecutter.sphinx.startswith('y') %}
+{%- if cookiecutter.sphinx %}
         sphinx-html
 {%- endif %}
 
@@ -33,17 +33,17 @@ extensions = lovely.buildouthttp
 show-picked-versions = true
 
 [ports]
-{%- if cookiecutter.pyrest.startswith('y') %}
+{%- if cookiecutter.pyrest %}
 app = 9210
-    {%- if cookiecutter.haproxy.startswith('y') %}
+    {%- if cookiecutter.haproxy %}
 app2 = 9211
 haproxy-app = 9100
     {%- endif %}
 {%- endif %}
-{%- if cookiecutter.supervisor.startswith('y') %}
+{%- if cookiecutter.supervisor %}
 supervisor = 8300
 {%- endif %}
-{%-if cookiecutter.crate.startswith('y') %}
+{%-if cookiecutter.crate %}
 crate = 4200
 crate2 = 4201
 {%- endif %}
@@ -53,12 +53,12 @@ environment = development
 
 [conf]
 recipe = z3c.recipe.filetemplate
-files = {%- if cookiecutter.supervisor.startswith('y') %} etc/supervisord.conf{%- endif %}
-        {% if cookiecutter.pyrest.startswith('y') %}etc/development.ini{%- endif %}
-        {% if cookiecutter.crate.startswith('y') %}etc/crate.yml{%- endif %}
-        {% if cookiecutter.haproxy.startswith('y') %}etc/haproxy.conf{% endif %}
+files = {%- if cookiecutter.supervisor %} etc/supervisord.conf{%- endif %}
+        {% if cookiecutter.pyrest %}etc/development.ini{%- endif %}
+        {% if cookiecutter.crate %}etc/crate.yml{%- endif %}
+        {% if cookiecutter.haproxy %}etc/haproxy.conf{% endif %}
 extends = ports
-{% if cookiecutter.supervisor.startswith('y') %}
+{% if cookiecutter.supervisor %}
 [supervisor]
 recipe = zc.recipe.egg:script
 relative-paths=true
@@ -68,11 +68,11 @@ eggs = supervisor
 initialization = import sys
                  sys.argv[1:1] = ['-c', '${buildout:directory}/etc/supervisord.conf']
 {%- endif %}
-{% if cookiecutter.sphinx.startswith('y') %}
+{% if cookiecutter.sphinx %}
 [sphinx-html]
 recipe = zc.recipe.egg:script
 eggs = sphinx
-    {%- if cookiecutter.py_package.startswith('y') %}
+    {%- if cookiecutter.py_package %}
        {{cookiecutter.repo_name}}
     {%- endif %}
 dependent-scripts = true
@@ -82,8 +82,8 @@ initialization =
                    '${buildout:directory}/docs',
                    '${buildout:directory}/docs/out'])
 {%- endif %}
-{%- if cookiecutter.py_package.startswith('y') %}
-   {% if cookiecutter.pyrest.startswith('y') %}
+{%- if cookiecutter.py_package %}
+   {% if cookiecutter.pyrest %}
 [app-scripts]
 recipe = zc.recipe.egg:scripts
 scripts = app proutes pviews pshell ptweens prequest
