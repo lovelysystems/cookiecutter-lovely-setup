@@ -1,6 +1,6 @@
 [versions]
 {%- if cookiecutter.crate %}
-crate-java = 0.22.2
+crate-java = 0.40.0
 {%- endif %}
 {%- if cookiecutter.nginx %}
 openresty = 1.4.3.6

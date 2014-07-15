@@ -1,6 +1,6 @@
 [crate]
 recipe = hexagonit.recipe.download
-url = http://download.cratedb.org/releases/crate-${versions:crate-java}.tar.gz
+url = https://cdn.crate.io/downloads/releases/crate-${versions:crate-java}.tar.gz
 strip-top-level-dir = true
 log_dir = ${buildout:directory}/var/log/crate
 data_dir = ${buildout:directory}/var/crate
@@ -11,7 +11,7 @@ cluster_name = {{cookiecutter.repo_name}}-dev
 recipe = zc.recipe.egg:scripts
 scripts = crash
 relative-paths=true
-eggs = crate
+eggs = crash
 interpreter = py
 
 [crate-setup]
